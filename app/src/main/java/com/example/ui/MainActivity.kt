@@ -2,6 +2,7 @@ package com.example.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -28,11 +29,45 @@ class MainActivity : AppCompatActivity()
         mView.alpha=1f
         mView.background=getDrawable(R.color.colorAccent)
 
-        //2.通过实现接口来实现监听事件
+        //2.通过实现接口来实现监听事件  回调给这个类的对象本身      自己来监听事件
         //mView.setOnClickListener(this)
 
-        //3.声明一个类  实现一个对应的接口和方法
-        mView.setOnClickListener(MyListener())
+        //3.声明一个类  实现一个对应的接口和方法                  别人监听
+        //mView.setOnClickListener(MyListener())
+
+        //4.匿名内部类                                           若监听者里面有很多方法就用这种
+        /*
+        mView.setOnClickListener(object :View.OnClickListener{
+            override fun onClick(v: View?) {
+                v?.background=getDrawable(R.color.colorPrimary)
+            }
+
+        })*/
+
+        //5.如果实现的接口只有一个  可以使用lambda表达式
+        /*
+        mView.setOnClickListener({v:View?->
+            v?.background=getDrawable(R.color.colorPrimary)
+        })*/
+
+        //6.如果这个方法的最后一个参数是lambda表达式 呢么这个表达式可以放在括号外边
+        /*
+        mView.setOnClickListener{v:View?->
+            v?.background=getDrawable(R.color.colorPrimary)
+        }*/
+
+        //c创建对象
+        val myView=MyView()
+        //接受回调
+        myView.callBack={
+            Log.v("wxw","主页接受到回调的数据：$it")
+        }
+
+        //7.如果方法只有一个参数  参数可以省略
+        mView.setOnClickListener{
+            it.background=getDrawable(R.color.colorPrimary)
+            myView.performClick()
+        }
     }
 
     inner class MyListener:View.OnClickListener{
