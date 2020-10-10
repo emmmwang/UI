@@ -14,7 +14,9 @@ import kotlinx.android.synthetic.main.activity_main.*
     android:onClick="changeBg"          给控件添加点击事件 不建议使用（不稳定）
 
  */
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity()
+        /*View.OnClickListener*/
+{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -25,10 +27,34 @@ class MainActivity : AppCompatActivity() {
         val mView:View = container.findViewWithTag<View>("1")
         mView.alpha=1f
         mView.background=getDrawable(R.color.colorAccent)
+
+        //2.通过实现接口来实现监听事件
+        //mView.setOnClickListener(this)
+
+        //3.声明一个类  实现一个对应的接口和方法
+        mView.setOnClickListener(MyListener())
     }
 
-    //通过onClick设置点击事件
-    fun changeBg(view: View) {
-        view.background=getDrawable(R.color.colorPrimary)
+    inner class MyListener:View.OnClickListener{
+        override fun onClick(v: View?) {
+            v?.background=getDrawable(R.color.colorPrimary)
+        }
+
     }
+
+    /**
+     *  //通过onClick设置点击事件
+    fun changeBg(view: View) {
+    view.background=getDrawable(R.color.colorPrimary)
+    }
+      */
+
+
+   /*
+    override fun onClick(v: View?) {
+
+        v?.background=getDrawable(R.color.colorPrimary)
+    }
+*/
+
 }
