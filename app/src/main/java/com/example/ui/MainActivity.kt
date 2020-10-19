@@ -3,6 +3,7 @@ package com.example.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -18,9 +19,38 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity()
         /*View.OnClickListener*/
 {
+    /*
+    Activity
+    管理界面的生命周期
+    接受事件（touch事件  触摸事件）
+    */
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //触摸事件回调
+        /*
+        事件类型：MotionEvent类来管理
+            ACTION_DOWN 按下
+            ACTION_MOVE 移动
+            ACTION_UP   离开屏幕
+            ACTION_CANCEL 被其他应用打断
+
+         activity#dispatchTouchEvent
+         phoneWindow#SuperDispatchTouchEvent
+         decorView#superDispatchTouchEvent
+         viewGrow#dispatchTouchEvent
+                    查找可以接受事件的target
+                    #dispatchTranformedTouchEvent遍历每一个target
+                    child.dispatchTouchEvent(event)将事件分发给每一个target
+         view#onTouchEvent(event)
+         如果子控件需要接受触摸事件  就必须实现onTouchEvent
+
+          当返回值为true时，表示这个事件已被消费了 就不会继续传递
+          当返回值为false时，表示这个事件没有被消费 就继续传递*/
+
+
 
         //当有id时 可以直接通过id访问控件-----kotlin
 
@@ -91,5 +121,15 @@ class MainActivity : AppCompatActivity()
         v?.background=getDrawable(R.color.colorPrimary)
     }
 */
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        return super.onTouchEvent(event)
+    }
+
+    //当触摸事件开始的时候优先回调这个方法
+    override fun onUserInteraction() {
+        super.onUserInteraction()
+        Log.v("wxw","触摸事件即将开始")
+    }
 
 }
