@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity()
 
         //c创建对象
         val myView=MyView()
-        //接受回调
+        //接收回调
         myView.callBack={
             Log.v("wxw","主页接受到回调的数据：$it")
         }
